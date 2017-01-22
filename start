@@ -1,0 +1,1 @@
+nohup server-1.0.0-SNAPSHOT/bin/server -mem 1024 -Dhttp.port=9001 >/dev/null 2>&1 &

@@ -1,0 +1,7 @@
+if [ -f "server-1.0.0-SNAPSHOT/RUNNING_PID" ]
+then
+    pid=`cat server-1.0.0-SNAPSHOT/RUNNING_PID`
+    echo Killing $pid
+    kill -9 $pid
+    rm -f server-1.0.0-SNAPSHOT/RUNNING_PID
+fi

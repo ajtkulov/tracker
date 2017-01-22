@@ -1,0 +1,3 @@
+GET     /                                               controllers.Application.index
+GET     /createSession                                  controllers.Application.createSession
+GET     /util/info                                      controllers.UtilController.info

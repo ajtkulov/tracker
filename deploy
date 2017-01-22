@@ -1,0 +1,2 @@
+sbt dist
+unzip -d . server/target/universal/server-1.0.0-SNAPSHOT.zip
