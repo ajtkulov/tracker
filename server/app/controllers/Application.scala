@@ -17,6 +17,15 @@ class Application extends Controller {
     Ok("it works")
   }
 
+  def get(readKey: String): Action[AnyContent] = Action {
+    Ok(Cache.get(readKey).toString)
+  }
+
+  def update(writeKey: String, user: String, long: Double, lat: Double): Action[AnyContent] = Action {
+    Cache.update(writeKey, user, Position(long, lat))
+    Ok("ok")
+  }
+
   def createSession: Action[AnyContent] = Action {
     val session = TrackerSession(StringUtils.random(), StringUtils.random(), StringUtils.random())
     Cache.add(session)
