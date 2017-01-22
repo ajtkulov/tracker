@@ -18,7 +18,7 @@ class Application extends Controller {
   }
 
   def get(readKey: String): Action[AnyContent] = Action {
-    Ok(Cache.get(readKey).toString)
+    Ok(Json.toJson(Cache.get(readKey)))
   }
 
   def update(writeKey: String, user: String, long: Double, lat: Double): Action[AnyContent] = Action {
