@@ -4,9 +4,11 @@ import java.io.File
 
 import play.api.libs.json._
 import play.api.mvc._
+
 import scala.util._
 import model._
 import model.TrackerSessionFormatter._
+import org.joda.time.Instant
 
 /**
   * Application controller
@@ -22,7 +24,7 @@ class Application extends Controller {
   }
 
   def update(writeKey: String, user: String, long: Double, lat: Double): Action[AnyContent] = Action {
-    Cache.update(writeKey, user, Position(long, lat))
+    Cache.update(writeKey, user, Position(long, lat, new Instant()))
     Ok("ok")
   }
 

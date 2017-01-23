@@ -1,6 +1,3 @@
-import sbt.Package.ManifestAttributes
-import scala.util._
-
 name := "core"
 
 version := "1.0.0-SNAPSHOT"
@@ -27,3 +24,5 @@ resolvers += "Typesafe Repo" at
 resolvers += "Pellucid Bintray" at "http://dl.bintray.com/pellucid/maven"
 
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.5.9"
+
+libraryDependencies += "joda-time" % "joda-time" % "2.9.7"
