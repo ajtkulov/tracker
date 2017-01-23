@@ -2,4 +2,5 @@ GET     /                                               controllers.Application.
 GET     /createSession                                  controllers.Application.createSession
 GET     /get/:readKey                                   controllers.Application.get(readKey: String)
 GET     /update/:writeKey/:user/:long/:lat              controllers.Application.update(writeKey: String, user: String, long: Double, lat: Double)
+GET     /deleteSession/:writeKey                        controllers.Application.deleteSession(writeKey: String)
 GET     /util/info                                      controllers.UtilController.info

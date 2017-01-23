@@ -10,6 +10,6 @@ import play.api.mvc._
 class UtilController extends Controller {
 
   def info: Action[AnyContent] = Action {
-    Ok(Cache.cacheById.size.toString)
+    Ok(Cache.cache.size.toString)
   }
 }

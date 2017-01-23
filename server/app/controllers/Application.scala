@@ -31,4 +31,9 @@ class Application extends Controller {
     Cache.add(session)
     Ok(Json.toJson(session))
   }
+
+  def deleteSession(writeKey: String): Action[AnyContent] = Action {
+    Cache.delete(writeKey)
+    Ok("ok")
+  }
 }
