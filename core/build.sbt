@@ -26,3 +26,5 @@ resolvers += "Pellucid Bintray" at "http://dl.bintray.com/pellucid/maven"
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.5.9"
 
 libraryDependencies += "joda-time" % "joda-time" % "2.9.7"
+
+libraryDependencies += "com.pellucid" %% "sealerate" % "0.0.3"
