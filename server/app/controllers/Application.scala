@@ -23,6 +23,10 @@ class Application extends Controller {
     Ok(Json.toJson(Cache.get(readKey)))
   }
 
+  def getLast(readKey: String): Action[AnyContent] = Action {
+    Ok(Json.toJson(Cache.get(readKey).values.mapValues(_.last)))
+  }
+
   def update(writeKey: String, user: String, long: Double, lat: Double): Action[AnyContent] = Action {
     Cache.update(writeKey, user, Position(long, lat, new Instant()))
     Ok("ok")

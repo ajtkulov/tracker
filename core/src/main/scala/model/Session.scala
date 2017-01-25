@@ -4,6 +4,7 @@ import model.State.User
 import org.joda.time.Instant
 import play.api.libs.json.Json._
 import play.api.libs.json.{Json, _}
+import com.github.nscala_time.time.Imports._
 
 case class TrackerSession(id: String, writeKey: String, readKey: String) {}
 
@@ -13,6 +14,10 @@ case class Positions(values: Map[TimeType, Seq[Position]]) {
   def add(value: Position): Positions = {
     val seconds = values(TimeTypes.Second) :+ value
     Positions(values.updated(TimeTypes.Second, seconds))
+  }
+
+  def last: Position = {
+    values(TimeTypes.Second).maxBy(_.timestamp)
   }
 }
 
