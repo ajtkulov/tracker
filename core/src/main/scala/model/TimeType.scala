@@ -22,6 +22,9 @@ object TimeTypes extends IndexedEnum[TimeType] {
   override def all: Set[TimeType] = sealerate.values[TimeType]
 
   lazy val mapByLength = genMap(x => x.length)
+  lazy val mapByName = genMap(x => x.name)
 
   def getByLength(length: Int): TimeType = mapByLength(length)
+
+  def getByName(name: String): TimeType = mapByName(name)
 }

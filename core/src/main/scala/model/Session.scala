@@ -20,8 +20,8 @@ object Positions {
   lazy val empty = Positions(Map().withDefaultValue(List()))
 }
 
-case class State(values: Map[String, Positions]) {
-  def update(name: String, position: Position): State = {
+case class State(values: Map[User, Positions]) {
+  def update(name: User, position: Position): State = {
     val positions = values.getOrElse(name, Positions.empty)
     val newPositions = positions.add(position)
     this.copy(values + (name -> newPositions))
@@ -46,23 +46,29 @@ object TrackerSessionFormatter {
   }
 
   implicit val timeTypeWrites = new Writes[TimeType] {
-    override def writes(o: TimeType): JsValue = JsNumber(o.length)
+    override def writes(o: TimeType): JsValue = JsString(o.name)
   }
 
   implicit val timeTypeReads = new Reads[TimeType] {
     override def reads(json: JsValue): JsResult[TimeType] = {
-      JsSuccess(TimeTypes.getByLength(json.as[Int]))
+      JsSuccess(TimeTypes.getByName(json.as[String]))
     }
   }
 
   implicit val positionFormatter = format[Position]
 
   implicit val positionsReads = new Format[Positions] {
-    override def writes(o: Positions): JsValue = arr(
-      o.values.toList.map(x => obj(x._1.name -> x._2))
-    )
+    override def writes(o: Positions): JsValue = {
+      obj("positions" -> o.values.toList.map(x => obj(x._1.name -> x._2)))
+    }
 
-    override def reads(json: JsValue): JsResult[Positions] = ???
+    override def reads(json: JsValue): JsResult[Positions] = {
+      JsSuccess(Positions((json \ "positions").as[JsArray].value.flatMap(x => {
+        x.as[JsObject].fields.map(x => {
+          (TimeTypes.getByName(x._1), x._2.as[Seq[Position]])
+        })
+      }).toMap))
+    }
   }
 
   implicit val trackerSessionFormatter = format[TrackerSession]
