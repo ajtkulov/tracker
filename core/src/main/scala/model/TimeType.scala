@@ -2,9 +2,15 @@ package model
 
 import com.pellucid.sealerate
 import enum.IndexedEnum
+import org.joda.time.Instant
+import utils.MathUtils
 
 sealed abstract class TimeType(val name: String, val length: Int) extends Ordered[TimeType] {
   def compare(that: TimeType): Int = this.length compare that.length
+
+  def floor(value: Instant): Instant = {
+    new Instant(MathUtils.floor(value.getMillis, length * 1000))
+  }
 }
 
 object TimeTypes extends IndexedEnum[TimeType] {
@@ -22,9 +28,12 @@ object TimeTypes extends IndexedEnum[TimeType] {
   override def all: Set[TimeType] = sealerate.values[TimeType]
 
   lazy val mapByLength = genMap(x => x.length)
+
   lazy val mapByName = genMap(x => x.name)
 
   def getByLength(length: Int): TimeType = mapByLength(length)
 
   def getByName(name: String): TimeType = mapByName(name)
+
+  lazy val order: List[TimeType] = all.toList.sortBy(_.length)
 }

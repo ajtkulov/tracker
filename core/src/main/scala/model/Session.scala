@@ -5,6 +5,7 @@ import org.joda.time.Instant
 import play.api.libs.json.Json._
 import play.api.libs.json.{Json, _}
 import com.github.nscala_time.time.Imports._
+import scala.collection.immutable.Seq
 
 case class TrackerSession(id: String, writeKey: String, readKey: String) {}
 
@@ -18,6 +19,17 @@ case class Positions(values: Map[TimeType, Seq[Position]]) {
 
   def last: Position = {
     values(TimeTypes.Second).maxBy(_.timestamp)
+  }
+
+  def compress(sizePerLevel: Int = 6): Positions = {
+    val flatten: Seq[Position] = values.flatMap(x => x._2).toList
+
+    val normalized: Map[TimeType, List[Position]] = TimeTypes.order.map(timeType => {
+      val floor: Seq[(Position, Instant)] = flatten.map(x => (x, timeType.floor(x.timestamp)))
+      (timeType, floor.groupBy(_._2).mapValues(x => x.minBy(_._1.timestamp)._1).values.toList )
+    }).toMap
+
+    Positions(normalized.mapValues(x => x.sortBy(_.timestamp)(Ordering[Instant].reverse).take(sizePerLevel)))
   }
 }
 
