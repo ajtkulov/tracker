@@ -37,11 +37,16 @@ object Positions {
   lazy val empty = Positions(Map().withDefaultValue(List()))
 }
 
-case class State(values: Map[User, Positions]) {
+case class State(values: Map[User, Positions], updates: Int = 0) {
   def update(name: User, position: Position): State = {
     val positions = values.getOrElse(name, Positions.empty)
     val newPositions = positions.add(position)
-    this.copy(values + (name -> newPositions))
+    val res = this.copy(values + (name -> newPositions), updates = updates + 1)
+    if (updates < 20) {
+      res
+    } else {
+      State(res.values.mapValues(x => x.compress()))
+    }
   }
 }
 
