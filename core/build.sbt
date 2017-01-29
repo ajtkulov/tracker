@@ -17,7 +17,7 @@ parallelExecution in IntegrationTest := false
 resolvers += "Typesafe Simple Repository" at
   "http://repo.typesafe.com/typesafe/simple/maven-releases/"
 
-resolvers += "Typesafe Repo" at 
+resolvers += "Typesafe Repo" at
   "http://repo.typesafe.com/typesafe/releases/"
 
 
@@ -30,3 +30,12 @@ libraryDependencies += "joda-time" % "joda-time" % "2.9.7"
 libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "1.2.0"
 
 libraryDependencies += "com.pellucid" %% "sealerate" % "0.0.3"
+
+libraryDependencies ++= Seq(
+  "com.typesafe.slick" %% "slick" % "3.1.1",
+  "org.slf4j" % "slf4j-nop" % "1.6.4",
+  "mysql" % "mysql-connector-java" % "5.1.39",
+  "org.joda" % "joda-convert" % "1.6",
+  "com.github.tototoshi" %% "slick-joda-mapper" % "1.2.0",
+  "com.typesafe.slick" %% "slick-codegen" % "3.1.1"
+)
