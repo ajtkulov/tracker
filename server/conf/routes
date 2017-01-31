@@ -1,6 +1,7 @@
 GET     /                                               controllers.Application.index
 GET     /createSession                                  controllers.Application.createSession
 GET     /get/:readKey                                   controllers.Application.get(readKey: String)
+GET     /getFull/:readKey                               controllers.Application.getFull(readKey: String)
 GET     /getLast/:readKey                               controllers.Application.getLast(readKey: String)
 GET     /update/:writeKey/:user/:long/:lat              controllers.Application.update(writeKey: String, user: String, long: Double, lat: Double)
 GET     /deleteSession/:writeKey                        controllers.Application.deleteSession(writeKey: String)

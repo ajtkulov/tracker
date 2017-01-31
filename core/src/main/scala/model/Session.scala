@@ -79,7 +79,7 @@ object TrackerSessionFormatter {
 
   implicit val positionFormatter = format[Position]
 
-  implicit val positionsReads = new Format[Positions] {
+  implicit val positionsFormatter = new Format[Positions] {
     override def writes(o: Positions): JsValue = {
       obj("positions" -> o.values.toList.map(x => obj(x._1.name -> x._2)))
     }
@@ -90,6 +90,18 @@ object TrackerSessionFormatter {
           (TimeTypes.getByName(x._1), x._2.as[Seq[Position]])
         })
       }).toMap))
+    }
+  }
+
+  val customPositionsWriter = new Writes[Positions] {
+    override def writes(o: Positions): JsValue = {
+      JsObject(o.values.toList.map(x => x._1.name -> Json.toJson(x._2)))
+    }
+  }
+
+  val customStateWriter = new Writes[State] {
+    override def writes(o: State): JsValue = {
+      JsObject(o.values.map(x => x._1 -> Json.toJson(x._2)(customPositionsWriter)).toList)
     }
   }
 

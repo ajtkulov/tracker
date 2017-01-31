@@ -20,6 +20,10 @@ class Application extends Controller {
   }
 
   def get(readKey: String): Action[AnyContent] = Action {
+    Ok(Json.toJson(Cache.get(readKey))(TrackerSessionFormatter.customStateWriter))
+  }
+
+  def getFull(readKey: String): Action[AnyContent] = Action {
     Ok(Json.toJson(Cache.get(readKey)))
   }
 
