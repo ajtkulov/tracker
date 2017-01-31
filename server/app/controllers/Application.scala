@@ -42,8 +42,13 @@ class Application extends Controller {
     Ok(Json.toJson(session))
   }
 
-  def deleteSession(writeKey: String): Action[AnyContent] = Action {
-    Cache.delete(writeKey)
+  def deleteSession(masterKey: String): Action[AnyContent] = Action {
+    Cache.delete(masterKey)
+    Ok("ok")
+  }
+
+  def extendSession(masterKey: String, instant: Long): Action[AnyContent] = Action {
+    Cache.updateMetaData(masterKey, new Instant(instant))
     Ok("ok")
   }
 }

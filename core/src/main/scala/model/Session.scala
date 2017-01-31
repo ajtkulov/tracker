@@ -7,7 +7,7 @@ import play.api.libs.json.{Json, _}
 import com.github.nscala_time.time.Imports._
 import scala.collection.immutable.Seq
 
-case class TrackerSession(id: String, writeKey: String, readKey: String) {}
+case class TrackerSession(masterKey: String, writeKey: String, readKey: String) {}
 
 case class Position(long: Double, lat: Double, timestamp: Instant) {}
 
@@ -37,7 +37,9 @@ object Positions {
   lazy val empty = Positions(Map().withDefaultValue(List()))
 }
 
-case class State(values: Map[User, Positions], updates: Int = 0) {
+case class MetaData(end: Instant) {}
+
+case class State(values: Map[User, Positions], updates: Int = 0, metaData: MetaData = MetaData.empty) {
   def update(name: User, position: Position): State = {
     val positions = values.getOrElse(name, Positions.empty)
     val newPositions = positions.add(position)
@@ -45,7 +47,7 @@ case class State(values: Map[User, Positions], updates: Int = 0) {
     if (updates < 20) {
       res
     } else {
-      State(res.values.mapValues(x => x.compress()))
+      this.copy(res.values.mapValues(x => x.compress()))
     }
   }
 }
@@ -53,7 +55,11 @@ case class State(values: Map[User, Positions], updates: Int = 0) {
 object State {
   type User = String
 
-  lazy val empty = State(Map())
+  def empty = State(Map(), 0, MetaData.empty)
+}
+
+object MetaData {
+  def empty = MetaData(new Instant().plus(2 hours))
 }
 
 object TrackerSessionFormatter {
@@ -106,5 +112,6 @@ object TrackerSessionFormatter {
   }
 
   implicit val trackerSessionFormatter = format[TrackerSession]
+  implicit val metaDataFormatter = format[MetaData]
   implicit val stateFormatter = format[State]
 }

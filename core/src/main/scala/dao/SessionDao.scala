@@ -8,7 +8,7 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-case class SessionDto(id: Int, sessionId: String, session: TrackerSession, state: State) {}
+case class SessionDto(id: Option[Int], sessionId: String, session: TrackerSession, state: State) {}
 
 class SessionTable(tag: Tag) extends Table[SessionDto](tag, "session") {
   implicit val mapper = MappedColumnType.base[TrackerSession, String](session => Json.toJson(session).toString, json => Json.fromJson[TrackerSession](Json.parse(json)).get)
@@ -22,7 +22,7 @@ class SessionTable(tag: Tag) extends Table[SessionDto](tag, "session") {
 
   def state = column[State]("state")
 
-  def * = (id, sessionId, session, state) <> (SessionDto.tupled, SessionDto.unapply)
+  def * = (id.?, sessionId, session, state) <> (SessionDto.tupled, SessionDto.unapply)
 }
 
 object SessionTable {
