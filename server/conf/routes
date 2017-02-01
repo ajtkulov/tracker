@@ -7,3 +7,4 @@ GET     /update/:writeKey/:user/:long/:lat              controllers.Application.
 GET     /deleteSession/:masterKey                       controllers.Application.deleteSession(masterKey: String)
 GET     /extendSession/:masterKey/:instant              controllers.Application.extendSession(masterKey: String, instant: Long)
 GET     /util/info                                      controllers.UtilController.info
+GET     /save                                           controllers.Application.save()

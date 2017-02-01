@@ -1,6 +1,8 @@
 package model
 
 import org.joda.time.Instant
+import com.github.nscala_time.time.Imports._
+import dao.{SessionDto, SessionTable}
 
 object Cache {
   val cacheByReadKey: scala.collection.concurrent.TrieMap[String, TrackerSession] = scala.collection.concurrent.TrieMap()
@@ -18,12 +20,19 @@ object Cache {
     val id = cacheByWriteKey(writeKey).masterKey
     val state = cache.getOrElseUpdate(id, State.empty)
     val newState = state.update(user, position)
+
+    assert(newState.metaData.end > new Instant())
+
     cache.update(id, newState)
   }
 
   def get(readKey: String): State = {
     val id = cacheByReadKey(readKey).masterKey
-    cache.getOrElseUpdate(id, State.empty)
+    val state = cache.getOrElseUpdate(id, State.empty)
+
+    assert(state.metaData.end > new Instant())
+
+    state
   }
 
   def delete(masterKey: String): Unit = {
@@ -39,6 +48,14 @@ object Cache {
     val session = cacheByMasterKey(masterKey)
     val state = cache.getOrElseUpdate(session.masterKey, State.empty)
 
+    assert(state.metaData.end > new Instant())
+
     cache.update(session.masterKey, state.copy(metaData = MetaData(instant)))
+  }
+
+  def save(): Unit = {
+    cache.foreach {
+      case (key, state) => SessionTable.save(SessionDto(None, key, cacheByMasterKey(key), state))
+    }
   }
 }

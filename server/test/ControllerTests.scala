@@ -1,6 +1,7 @@
 import controllers.Application
 import model._
 import model.TrackerSessionFormatter._
+import org.joda.time.Instant
 import org.scalatestplus.play._
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -38,12 +39,14 @@ class ControllerTests extends PlaySpec with Results {
     "extend session" in {
       val controller = new Application()
 
+      val instant = new Instant().getMillis + 10000
+
       val sessionReq = controller.createSession.apply(FakeRequest())
       val session = Json.fromJson[TrackerSession](Json.parse(contentAsString(sessionReq))).get
-      controller.extendSession(session.masterKey, 127).apply(FakeRequest())
+      controller.extendSession(session.masterKey, instant).apply(FakeRequest())
       val stateJson = contentAsString(controller.getFull(session.readKey).apply(FakeRequest()))
       val state = Json.fromJson[State](Json.parse(stateJson)).get
-      assert(state.metaData.end.getMillis == 127)
+      assert(state.metaData.end.getMillis == instant)
     }
 
     "close session" in {

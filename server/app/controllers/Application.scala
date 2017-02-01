@@ -51,4 +51,9 @@ class Application extends Controller {
     Cache.updateMetaData(masterKey, new Instant(instant))
     Ok("ok")
   }
+
+  def save(): Action[AnyContent] = Action {
+    Cache.save()
+    Ok("ok")
+  }
 }
