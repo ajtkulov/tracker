@@ -37,3 +37,7 @@ libraryDependencies ++= Seq(
   "org.joda" % "joda-convert" % "1.6",
   "com.github.tototoshi" %% "slick-joda-mapper" % "1.2.0"
 )
+
+libraryDependencies += "org.slf4j" % "log4j-over-slf4j" % "1.7.16"
+
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.1"
