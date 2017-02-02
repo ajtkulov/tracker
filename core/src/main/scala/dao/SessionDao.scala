@@ -33,6 +33,10 @@ object SessionTable {
   }
 
   def save(sessionDto: SessionDto): Unit = {
-    Await.result(MySqlUtils.databaseDef.run(sessionTables.insertOrUpdate(sessionDto)), Duration.Inf)
+    val session = Json.toJson(sessionDto.session).toString
+    val state = Json.toJson(sessionDto.state).toString
+    val q = sqlu"""insert into session (session_id, session, state) values (${sessionDto.session.masterKey}, ${session}, ${state})
+           on duplicate key update session = ${session}, state = ${state}"""
+    Await.result(MySqlUtils.databaseDef.run(q), Duration.Inf)
   }
 }
