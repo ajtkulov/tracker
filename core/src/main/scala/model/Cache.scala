@@ -58,4 +58,13 @@ object Cache {
       case (key, state) => SessionTable.save(SessionDto(None, key, cacheByMasterKey(key), state))
     }
   }
+
+  def load(): Unit = {
+    val loaded = SessionTable.load()
+
+    for (item <- loaded) {
+      add(item._1)
+      cache.put(item._1.masterKey, item._2)
+    }
+  }
 }

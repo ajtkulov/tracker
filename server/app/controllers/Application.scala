@@ -56,4 +56,9 @@ class Application extends Controller {
     Cache.save()
     Ok("ok")
   }
+
+  def load(): Action[AnyContent] = Action {
+    Cache.load()
+    Ok("ok")
+  }
 }

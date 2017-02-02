@@ -4,6 +4,8 @@ import model.TrackerSessionFormatter._
 import model.{State, TrackerSession}
 import play.api.libs.json.Json
 import slick.driver.MySQLDriver.api._
+import com.github.nscala_time.time.Imports._
+import org.joda.time.Instant
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -38,5 +40,10 @@ object SessionTable {
     val q = sqlu"""insert into session (session_id, session, state) values (${sessionDto.session.masterKey}, ${session}, ${state})
            on duplicate key update session = ${session}, state = ${state}"""
     Await.result(MySqlUtils.databaseDef.run(q), Duration.Inf)
+  }
+
+  def load(): Seq[(TrackerSession, State)] = {
+    val res: Seq[SessionDto] = Await.result(MySqlUtils.databaseDef.run(sessionTables.result), Duration.Inf)
+    res.filter(x => x.state.metaData.end > new Instant()).map(x => (x.session, x.state))
   }
 }

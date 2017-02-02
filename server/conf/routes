@@ -8,3 +8,4 @@ GET     /deleteSession/:masterKey                       controllers.Application.
 GET     /extendSession/:masterKey/:instant              controllers.Application.extendSession(masterKey: String, instant: Long)
 GET     /util/info                                      controllers.UtilController.info
 GET     /save                                           controllers.Application.save()
+GET     /load                                           controllers.Application.load()
