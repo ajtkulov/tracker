@@ -4,7 +4,7 @@
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${application.home}/logs/tracker/tracker.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${application.home:-.}/logs/tracker/tracker.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -14,7 +14,7 @@
 
     <appender name="audit" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${application.home}/logs/audit/audit.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${application.home:-.}/logs/audit/audit.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -27,7 +27,7 @@
             <level>ERROR</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${application.home}/logs/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${application.home:-.}/logs/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
