@@ -1,11 +1,8 @@
 package controllers
 
-import java.io.File
-
 import play.api.libs.json._
 import play.api.mvc._
 
-import scala.util._
 import model._
 import model.TrackerSessionFormatter._
 import org.joda.time.Instant
@@ -16,7 +13,7 @@ import org.joda.time.Instant
 class Application extends Controller {
 
   def index: Action[AnyContent] = Action {
-    Ok("it works")
+    Ok(views.html.root.render())
   }
 
   def get(readKey: String): Action[AnyContent] = Action {

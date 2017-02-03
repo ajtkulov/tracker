@@ -9,3 +9,4 @@ GET     /extendSession/:masterKey/:instant              controllers.Application.
 GET     /util/info                                      controllers.UtilController.info
 GET     /save                                           controllers.Application.save()
 GET     /load                                           controllers.Application.load()
+GET     /util/logs/:prefix/:lines                       controllers.UtilController.logs(prefix: String, lines: Int)
