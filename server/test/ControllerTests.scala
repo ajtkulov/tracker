@@ -36,6 +36,19 @@ class ControllerTests extends PlaySpec with Results {
       println(contentAsString(controller.getLast(session.readKey).apply(FakeRequest())))
     }
 
+    "update Point" in {
+      val controller = new Application()
+
+      val res = controller.createSession.apply(FakeRequest())
+      val session = Json.fromJson[TrackerSession](Json.parse(contentAsString(res))).get
+      controller.update(session.writeKey, "pavel", 123, 127).apply(FakeRequest())
+      controller.updatePoint(session.readKey, 100, 121).apply(FakeRequest())
+      val json = contentAsString(controller.getFull(session.readKey).apply(FakeRequest()))
+      val state = Json.fromJson[State](Json.parse(json)).get
+      assert(state.point.get.long == 100)
+      assert(state.point.get.lat == 121)
+    }
+
     "extend session" in {
       val controller = new Application()
 

@@ -4,6 +4,7 @@ GET     /get/:readKey                                   controllers.Application.
 GET     /getFull/:readKey                               controllers.Application.getFull(readKey: String)
 GET     /getLast/:readKey                               controllers.Application.getLast(readKey: String)
 GET     /update/:writeKey/:user/:long/:lat              controllers.Application.update(writeKey: String, user: String, long: Double, lat: Double)
+GET     /updatePoint/:readKey/:long/:lat                controllers.Application.updatePoint(readKey: String, long: Double, lat: Double)
 GET     /deleteSession/:masterKey                       controllers.Application.deleteSession(masterKey: String)
 GET     /extendSession/:masterKey/:instant              controllers.Application.extendSession(masterKey: String, instant: Long)
 GET     /util/info                                      controllers.UtilController.info

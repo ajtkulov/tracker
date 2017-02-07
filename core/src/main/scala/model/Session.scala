@@ -39,7 +39,7 @@ object Positions {
 
 case class MetaData(end: Instant) {}
 
-case class State(values: Map[User, Positions], updates: Int = 0, metaData: MetaData = MetaData.empty) {
+case class State(values: Map[User, Positions], point: Option[Position] = None, updates: Int = 0, metaData: MetaData = MetaData.empty) {
   def update(name: User, position: Position): State = {
     val positions = values.getOrElse(name, Positions.empty)
     val newPositions = positions.add(position)
@@ -55,11 +55,11 @@ case class State(values: Map[User, Positions], updates: Int = 0, metaData: MetaD
 object State {
   type User = String
 
-  def empty = State(Map(), 0, MetaData.empty)
+  def empty = State(Map(), None, 0, MetaData.empty)
 }
 
 object MetaData {
-  def empty = MetaData(new Instant().plus(2 hours))
+  def empty = MetaData(new Instant().plus(24 hours))
 }
 
 object TrackerSessionFormatter {

@@ -33,6 +33,11 @@ class Application extends Controller {
     Ok("ok")
   }
 
+  def updatePoint(readKey: String, long: Double, lat: Double): Action[AnyContent] = Action {
+    Cache.updatePoint(readKey, Position(long, lat, new Instant()))
+    Ok("ok")
+  }
+
   def createSession: Action[AnyContent] = Action {
     val session = TrackerSession(StringUtils.random(), StringUtils.random(), StringUtils.random())
     Cache.add(session)

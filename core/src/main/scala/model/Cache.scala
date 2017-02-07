@@ -26,6 +26,16 @@ object Cache {
     cache.update(id, newState)
   }
 
+  def updatePoint(readKey: String, position: Position): Unit = {
+    val id = cacheByReadKey(readKey).masterKey
+    val state = cache.getOrElseUpdate(id, State.empty)
+    val newState = state.copy(point = Some(position))
+
+    assert(newState.metaData.end > new Instant())
+
+    cache.update(id, newState)
+  }
+
   def get(readKey: String): State = {
     val id = cacheByReadKey(readKey).masterKey
     val state = cache.getOrElseUpdate(id, State.empty)
