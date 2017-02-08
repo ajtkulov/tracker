@@ -26,7 +26,7 @@ object Actors {
 
   val values: List[ActorInstance] = List(
     ActorInstance(Props[LoadActor], "load_actor",
-      List(ActorScheduleItem(0 seconds, 1000 days, singletonMessage))),
+      List(ActorScheduleItem(0 seconds, 100 days, singletonMessage))),
     ActorInstance(Props[SaveActor], "save_actor",
       List(ActorScheduleItem(10 minutes, 20 minutes, singletonMessage)))
   )
