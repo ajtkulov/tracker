@@ -45,8 +45,8 @@ class ControllerTests extends PlaySpec with Results {
       controller.updatePoint(session.readKey, 100, 121).apply(FakeRequest())
       val json = contentAsString(controller.getFull(session.readKey).apply(FakeRequest()))
       val state = Json.fromJson[State](Json.parse(json)).get
-      assert(state.point.get.long == 100)
-      assert(state.point.get.lat == 121)
+      assert(state.point.get.lat == 100)
+      assert(state.point.get.long == 121)
     }
 
     "extend session" in {

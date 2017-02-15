@@ -26,6 +26,6 @@ class SerializationTests extends FunSuite {
 
     val json = Json.toJson(state)(TrackerSessionFormatter.customStateWriter)
 
-    assert(json.toString() == """{"sdf":{"second":[{"long":1,"lat":2,"timestamp":1485851478464},{"long":3,"lat":2,"timestamp":1485851478464}],"minute":[{"long":3,"lat":5,"timestamp":1485851478464},{"long":1,"lat":7,"timestamp":1485851478464}]}}""")
+    assert(json.toString() == """{"sdf":{"second":[{"lat":1,"long":2,"timestamp":1485851478464},{"lat":3,"long":2,"timestamp":1485851478464}],"minute":[{"lat":3,"long":5,"timestamp":1485851478464},{"lat":1,"long":7,"timestamp":1485851478464}]}}""")
   }
 }
