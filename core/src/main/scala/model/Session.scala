@@ -9,7 +9,7 @@ import scala.collection.immutable.Seq
 
 case class TrackerSession(masterKey: String, writeKey: String, readKey: String) {}
 
-case class Position(long: Double, lat: Double, timestamp: Instant) {}
+case class Position(lat: Double, long: Double, timestamp: Instant) {}
 
 case class Positions(values: Map[TimeType, Seq[Position]]) {
   def add(value: Position): Positions = {

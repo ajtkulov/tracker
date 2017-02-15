@@ -28,13 +28,13 @@ class Application extends Controller {
     Ok(Json.toJson(Cache.get(readKey).values.mapValues(_.last)))
   }
 
-  def update(writeKey: String, user: String, long: Double, lat: Double): Action[AnyContent] = Action {
-    Cache.update(writeKey, user, Position(long, lat, new Instant()))
+  def update(writeKey: String, user: String, lat: Double, long: Double): Action[AnyContent] = Action {
+    Cache.update(writeKey, user, Position(lat, long, new Instant()))
     Ok("ok")
   }
 
-  def updatePoint(readKey: String, long: Double, lat: Double): Action[AnyContent] = Action {
-    Cache.updatePoint(readKey, Position(long, lat, new Instant()))
+  def updatePoint(readKey: String, lat: Double, long: Double): Action[AnyContent] = Action {
+    Cache.updatePoint(readKey, Position(lat, long, new Instant()))
     Ok("ok")
   }
 
