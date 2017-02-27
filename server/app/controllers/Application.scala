@@ -38,6 +38,10 @@ class Application extends Controller {
     Ok("ok")
   }
 
+  def getPoint(readKey: String): Action[AnyContent] = Action {
+    Ok(Json.toJson(Cache.get(readKey).point))
+  }
+
   def createSession: Action[AnyContent] = Action {
     val session = TrackerSession(StringUtils.random(), StringUtils.random(), StringUtils.random())
     Cache.add(session)
